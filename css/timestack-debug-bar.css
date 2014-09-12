@@ -1,0 +1,133 @@
+.timestack-timeline {
+	background: #fff;
+	padding: 10px 10px 20px 10px;
+	border-radius: 3px;
+	box-shadow: 0 0 6px #999;
+}
+
+.timestack-timeline .timestack-timeline {
+	margin: 20px -10px;
+}
+
+.timestack-split-timeline-header h5 {
+	color: #333;
+	font-size: 12px;
+	text-align: center;
+	font-weight: bold;
+	margin: 0;
+}
+
+.timestack-split-timeline-header .total-time {
+	display: block;
+	border-bottom: 1px solid #ccc;
+	color: #888;
+	font-size: 11px;
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.timestack-split-timeline {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	height: 50px;
+}
+
+.timestack-split-timeline > li {
+	float: left;
+	display: block;
+	height: 50px;
+	background: rgba(0,0,0,.3);
+	box-sizing: border-box;
+	/*border-right: 1px solid rgba(0,0,0,.3);*/
+}
+
+.timestack-split-timeline > li > .timestack-timeline {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-top: 110px;
+	display: none;
+}
+
+.timestack-split-timeline > li.active > .timestack-timeline {
+	display: block;
+}
+
+.timestack-split-timeline > li > .timestack-timeline:before {
+	content: ' ';
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid rgba(0,0,0,.2);
+	height: 0;
+	width: 0;
+	position: absolute;
+	margin-left: -10px;
+	left: 50%;
+	top: -30px;
+}
+
+.timestack-split-timeline > li.unknown-time {
+	background: rgba(0,0,0,.1);
+}
+
+.timestack-split-timeline > li.type-event {
+	width: 0; 
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 5px solid rgba(0,0,0,.4);
+	margin-top: 53px;
+	margin-left: -5px;
+	margin-right: -5px;
+	background: none;
+}
+
+.timestack-split-timeline > li.type-event:hover {
+	border-bottom-color: green;
+}
+
+.timestack-split-timeline > li.type-operation:hover {
+	outline: 2px solid #fff;
+}
+
+.timestack-split-timeline-details {
+	padding: 10px;
+	background: #eee;
+	margin: 15px -10px;
+	box-shadow: inset 0 0 5px #aaa;
+	display: none;
+}
+
+.timestack-split-timeline-details table {
+	border-collapse: collapse;	
+	width: 100%;
+}
+
+.timestack-split-timeline-details table tr:nth-child(odd) {
+	border-bottom: 1px solid rgba(0,0,0,.03);
+}
+
+.timestack-split-timeline-details table td {
+	vertical-align: top;
+	padding: 4px;
+	font-size: 12px;
+	color: rgba(0,0,0,.8);
+	border-collapse: collapse;
+}
+
+.timestack-split-timeline-details table td pre {
+	margin: 0;
+	background: rgba(255,255,190,.5);
+	padding: 2px !important;
+	border-radius: 2px;
+	font-size: 11px !important;
+	white-space: normal;
+	padding: 0 3px;
+	display: inline;
+}
+
+.timestack-split-timeline-details table td:first-child {
+	font-weight: bold;
+}
