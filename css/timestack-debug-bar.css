@@ -43,6 +43,10 @@
 	/*border-right: 1px solid rgba(0,0,0,.3);*/
 }
 
+.timestack-split-timeline.selected-item > li:not(.active) {
+	opacity: .3;
+}
+
 .timestack-split-timeline > li > .timestack-timeline {
 	position: absolute;
 	left: 0;

@@ -19,17 +19,15 @@ class Timestack_Operation {
 	public $vars = array();
 	public $time = 0;
 
-	public function __construct( $id, $label = '' ) {
+	public function __construct( $id, $start_offset ) {
 
-		$this->backtrace = wp_debug_backtrace_summary();
+		$this->backtrace = array();
 		$this->children = array();
 		$this->id = $id;
 		$this->start_time = microtime(true);
 
-		if ( $id !== 'wp' )
-			$this->time = microtime(true) - Timestack::get_instance()->get_start_time();
+		$this->time = microtime(true) - $start_offset;
 
-		$this->label = $label;
 		$this->is_open = true;
 		$this->start_memory_usage = memory_get_usage();
 
@@ -38,7 +36,12 @@ class Timestack_Operation {
 		if ( ! defined( 'SAVEQUERIES' ) )
 			define( 'SAVEQUERIES', true );
 
-		$this->start_query_count = count( $wpdb->queries );
+		if ( $wpdb ) {
+			$this->start_query_count = count( $wpdb->queries );	
+		} else {
+			$this->start_query_count = 0;
+		}
+		
 	}
 
 	public function end() {
@@ -49,11 +52,16 @@ class Timestack_Operation {
 		$this->is_open = false;
 
 		global $wpdb;
-		$this->end_query_count = count( $wpdb->queries );
+
+		if ( $wpdb ) {
+			$this->end_query_count = count( $wpdb->queries );	
+		} else {
+			$this->end_query_count = 0;
+		}
 
 		$this->query_count = $this->end_query_count - $this->start_query_count;
 
-		if ( $wpdb->queries )
+		if ( ! empty( $wpdb->queries ) )
 			$this->queries = array_slice( $wpdb->queries, $this->start_query_count );
 
 		else
@@ -86,14 +94,17 @@ class Timestack_Operation {
 
 		if ( ! empty( $this->open_operation ) ) {
 
-			$this->open_operation->end_operation();
+			$id = $this->open_operation->end_operation();
 
 			if ( ! $this->open_operation->is_open ) {
-				$this->open_operation = null;				
+				$this->open_operation = null;
 			}
 		} else {
 			$this->end();
+			$id = $this->id;
 		}
+
+		return $id;
 	}
 
 	public function force_end_operation() {

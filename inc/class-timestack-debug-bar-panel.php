@@ -17,7 +17,7 @@ class Timestack_Debug_Bar_Panel extends Debug_Bar_Panel {
 	}
 
 	function render() {
-		$this->timestack->end_operation();
+		$this->timestack->stack->force_end_operation();
 		?>
 		
 		<?php $this->render_split_timeline( $this->timestack->stack ) ?>
@@ -29,26 +29,23 @@ class Timestack_Debug_Bar_Panel extends Debug_Bar_Panel {
 				if ( e.target.nodeName !== 'LI' ) {
 					return;
 				}
+
+				if ( jQuery( this ).hasClass( 'unknown-time' ) || jQuery( this ).hasClass( 'active' ) ) {
+					jQuery( this ).removeClass( 'active' );
+					jQuery( this ).siblings( '.active' ).removeClass( 'active' );
+					jQuery( this ).closest( '.timestack-split-timeline' ).removeClass( 'selected-item' );
+					return;
+				}
+
 				jQuery( this ).siblings( '.active' ).removeClass( 'active' );
-				jQuery( this ).toggleClass( 'active' );
+				jQuery( this ).addClass( 'active' );
+				jQuery( this ).closest( '.timestack-split-timeline' ).addClass( 'selected-item' );
 			} );
 
 			jQuery( '.toggle-operation-details' ).click( function(e) {
 				e.preventDefault();
 				jQuery( this ).closest( '.timestack-split-timeline-header' ).find( '.timestack-split-timeline-details' ).slideToggle( 'fast' );
 			});
-			var tip = '';
-
-			// jQuery('.timestack-split-timeline > li[title]').mouseover(function (e) {
-			// 	tip = jQuery(this).attr('title');
-
-			// 	//jQuery(this).css('position', 'relative').removeAttr('title').append('<span class="tooltip">' + tip + '</div>');
-
-			// //	jQuery('.tooltip').css('left', jQuery(this).width() / 2 - jQuery('.tooltip').width() / 2).fadeIn('500').fadeTo('10', 1.0);
-			// }).mouseout(function () {
-			// 	jQuery('.tooltip').remove();
-			// 	jQuery(this).attr('title', tip);
-			// });
 		</script>
 		<?php
 	}
@@ -62,7 +59,7 @@ class Timestack_Debug_Bar_Panel extends Debug_Bar_Panel {
 		<div class="timestack-timeline">
 			<div class="timestack-split-timeline-header">
 				<?php if ( $operation->get_label() !== 'wp' ) : ?>
-					<h5><?php echo $operation->get_label(); ?> [<a class="toggle-operation-details" href="#">Operation Details</a>]</h5>
+					<h5><?php echo $operation->get_label(); ?> [<a class="toggle-operation-details" href="#">Details</a>]</h5>
 				<?php endif ?>
 
 				<div class="timestack-split-timeline-details">
