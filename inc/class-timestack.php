@@ -160,7 +160,7 @@ class Timestack {
 
 		$this->add_action_pre_load( 'add_event', function( $id ) {
 
-			$this->add_event( $id, $label );
+			$this->add_event( $id );
 
 		}, 10, 1 );
 	}
