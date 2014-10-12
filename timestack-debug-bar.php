@@ -15,7 +15,7 @@ add_filter( 'debug_bar_panels', 'timestack_add_debug_bar_panel' );
 
 function timestack_add_debug_bar_panel( $panels ) {
 
-	$panels = array();
+	//$panels = array();
 	require_once dirname( __FILE__ ) . '/inc/class-timestack-debug-bar-panel.php';
 
 	$panels[] = new Timestack_Debug_Bar_Panel();
